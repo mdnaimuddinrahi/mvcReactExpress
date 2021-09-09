@@ -1,4 +1,19 @@
 To create react mvc express react project 
+We had to create two folder client and server folder.
 1. In server folder.
     1.1. first command in terminal :: npm init.
     1.2. second command in terminal :: npm install express cors mysql2 --save
+    1.3. create a file name index.js (Note:: you could name the file any name you want.
+         if name the file "test.js" then you should change name in package.json->>
+         before Change:: {"name": "index.js"} after Change::{"name" : "test.js"})
+    1.4. In index.js folder -->>>
+        1.4.1.
+            const express = require('express')
+            const app = express();
+            
+            app.listen(3080, ()=> {
+                console.log("Server running on port 3080") // server running on port 3080 successfully
+            })
+        1.4.2. run command in terminal:: node index.js (Note:: if the file test.js then command will be:: node test.js)
+    1.5. run command in terminal :: npm install nodemon --save 
+
