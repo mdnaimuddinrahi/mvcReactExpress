@@ -1,0 +1,4 @@
+To create react mvc express react project 
+1. In server folder.
+    1.1. first command in terminal :: npm init.
+    1.2. second command in terminal :: npm install express cors mysql2 --save
