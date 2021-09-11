@@ -131,8 +131,16 @@ We had to create two folder client and server folder.
                 res.json(post)
             })
     1.22. then Use Postman to check if data insert to database or not.
+    1.23. In route/Posts.js file:
+            router.get('/', async (req, res) => {
+                const listOfPosts = await Posts.findAll()
+                res.json(listOfPosts)
+            })
     
-    
+Now In Client folder we want you to show that. how React connect with node
+2.In client folder
+    2.1. open terminal and give command : npx create-react-app .  
+         (Note:: "." or dot symbol is use to initial directory )
 
 
 
