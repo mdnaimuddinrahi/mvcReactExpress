@@ -1,4 +1,7 @@
 To create react mvc express react project 
+This tutorial follwed by youtube. link given below:--> 
+Channel name :: PedroTech
+1. https://www.youtube.com/watch?v=Hl7diL7SFw8&list=PLpPqplz6dKxUaZ630TY1BFIo5nP-_x-nL&index=10
 We had to create two folder client and server folder.
 1. In server folder.
     1.1. first command in terminal :: npm init.
@@ -28,9 +31,168 @@ We had to create two folder client and server folder.
 
 --->>>>>>>Create Database in mysql server
 
-    1.8. run command in terminal :: npm install sequelize
+    1.8. run command in terminal :: npm install sequelize sequelize-cli --save
          1.8.1. npm sequelize web link::--> https://www.npmjs.com/package/sequelize
          1.8.2. npm sequelize-cli web link::--> https://www.npmjs.com/package/sequelize-cli
+
+    1.9. run command in terminal :: sequelize init
+         (Note:: if you get error like this.
+                    sequelize : The term 'sequelize' is not recognized as the name of a      
+                        cmdlet, function, script file, or operable program. Check the spelling   
+                        of the name, or if a path was included, verify that the path is correct  
+                        and try again.
+            
+            To solve this problem -->
+                run command in terminal ::-> npm install -g sequelize-cli
+            
+            try again :: sequelize init
+            if again error like this :: -> File C:Users\Users\user\AppData\Roaming\npm\sequelize.ps1   
+                                            cannot be loaded because running scripts is disabled on this system.
+            To solve this problem -->
+                if you use vscode then try to run in vscode terminal->
+                    command :: Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser
+            And also add in -->
+                if Operating System windows then ->
+                    search in windows search bar -> Edit the system environment variables 
+                        open -> System properties
+                        In System properties->
+                            click -> Environment variables
+                                In Environment variables->
+                                    select path and click edit 
+                                    then add the path of npm -> C:\Users\user\AppData\Roaming\npm
+         )-->// end Note
+    1.10. after successfully command = (sequelize init) execute 
+            if we see in directory there's create some some folder like (migrations, seeders, config)
+
+    1.11. Delete migrations and seeders folder.
+    1.12. in models folder :
+                create posts.js (or any name you want)
+    1.13. In models/posts.js :
+            To generate posts table:
+                
+                module.exports = (sequelize, DataTypes) => {
+                    const Posts = sequelize.define("Posts", { // we are gonna define table as posts
+                        title: {
+                            type: DataTypes.STRING,
+                            allowNull: false,
+                        },
+                        postText: {
+                            type: DataTypes.STRING,
+                            allowNull: false,
+                        },
+                        username: {
+                            type: DataTypes.STRING,
+                            allowNull: false,
+                        }
+                    })
+
+                    return Posts //we return all the object of Posts
+                }
+    1.14. To create table in database automatically,
+          1.14.1. In index.js file,
+                    const db = require('./models')
+
+                    db.sequelize.sync().then(() => {
+                        app.listen(3080, ()=> {
+                            console.log('Server running on port 3080')
+                        })
+                    })
+    1.15. In config/config.json,
+                "development": {
+                "username": "root",
+                "password": null, // you can also give "" string if password don't have in server
+                "database": "tutorialdb", // name the database like in server
+                "host": "127.0.0.1", // give host address
+                "dialect": "mysql"
+            },
+
+    1.16. run command in terminal: npm start 
+    1.17. check server database table create or not
+    1.18. create folder in server name ::>>>> routes
+    1.19. In routes folder:
+            1.19.1. create Posts.js file.
+                        const express = require('express')
+                        const router = express.Router()
+
+                        router.get('/', (req, res) =>{
+                            res.send('hello world')
+                        })
+
+                        module.exports = router ;
+    1.20. In server/index.js file:
+            app.use(express.json())
+            //Routers
+            const postRouter = require('./routes/Posts')
+            app.use("/posts", postRouter)
+    1.21. In routes/Posts.js file: 
+            router.post('/', async (req, res) => {
+                const post = req.body
+                await Posts.create(post)
+                res.json(post)
+            })
+    1.22. then Use Postman to check if data insert to database or not.
+    
     
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+in vscode:::::::::::::::>
+
+            {
+    "workbench.iconTheme": "material-icon-theme",
+    "prettier.jsxSingleQuote": true,
+    "prettier.singleQuote": true,
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact"
+    },
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": "comment",
+                "settings": {
+                    "fontStyle": "italic"
+                }
+            }
+        ]
+    },
+    "prettier.trailingComma": "all",
+    "editor.cursorBlinking": "expand",
+    "javascript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
+    "workbench.colorTheme": "Monokai",
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "git.autofetch": true,
+    "gitlens.advanced.messages": {
+        "suppressImproperWorkspaceCasingWarning": true
+    },
+    "zenMode.hideActivityBar": false
+}
