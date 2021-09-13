@@ -141,18 +141,168 @@ Now In Client folder we want you to show that. how React connect with node
 2.In client folder
     2.1. open terminal and give command : npx create-react-app .  
          (Note:: "." or dot symbol is use to initial directory )
+    2.2. to run type command In terminal: npm start
+    2.3. In src folder:
+            delete those files (App.test.js, index.css, logo.svg, setupTests.js)
+    2.4. In src/App.js file:
+            import './App.css';
+
+            function App() {
+            return (
+                <div className="App">
+
+                </div>
+            );
+            }
+
+            export default App;
+
+    2.5. to make an api request type command in terminal: npm install axios
+1. Back to server folder
+    1.24. In index.js file.
+            const cors = require('cors')
+
+            app.use(cors())
+2. Back to client folder 
+    2.6. create service folder.
+    2.7. in service folder:
+            2.7.1. create PostServices folder.
+    2.8. in service/PostServices folder:
+            type the code below.
+                import axios from "axios"
+
+                const PostServices = {}
+
+                PostServices.list = async () => {
+                    let url = "http://127.0.0.1:3080/posts"
+                    const res = await axios
+                        .get(url)
+                        .then(response => {
+                            return response.data
+                        })
+                        .catch(error => {
+                            return error
+                        })
+                    return res;
+                }
+
+                export default PostServices;
+    2.9. Create views folder.
+    2.10. In App.js file:
+            
+                import React, { useEffect, useState } from 'react'
+                import PostServices from '../services/PostServices';
+
+                export const App = () => {
+                const [listOfPosts, setListOfPosts] = useState([])
+
+                const getPost = async () => {
+                    const data = await PostServices.list()
+                    setListOfPosts(data)
+                }
+
+                useEffect(() => {
+                    getPost()
+                }, [])
+
+                console.log(`state.listOfPosts`, listOfPosts)
+                return (
+                    <div className="container">
+                    <table className="table table-striped|sm|bordered|hover|inverse table-inverse table-responsive">
+                        <thead className="thead-inverse|thead-default">
+                        <tr>
+                            <th>Name</th>
+                            <th>Title</th>
+                            <th>Text</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        { listOfPosts.map(post => (
+                            <tr key={ post.id }>
+                            <td scope="row">{ post.username }</td>
+                            <td>{ post.title }</td>
+                            <td>{ post.postText }</td>
+                            </tr>
+                        )) }
+
+                        </tbody>
+                    </table>
+
+                    </div>
+                )
+                }
 
 
+                export default App;
+    2.12. run command in terminal: npm install react-router-
+    2.13. in App.js file:
+            import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
+            import { Home } from './Pages/Home'
+            import PostForm from './Pages/PostForm'
 
+            return (
+                <div className="App">
+                <Router>
+                    <Link to="/post-form">Create A post</Link>
+                    <Link to="/">Home page</Link>
+                    <Switch>
+                    <Route path="/" exact component={ Home } />
+                    <Route path="/post-form" exact component={ PostForm } />
+                    </Switch>
+                </Router>
+                </div>
+            )
+    2.14. In pages/PostForm.js file:
+            import { Formik, Form, Field, ErrorMessage } from 'formik'
 
+            export const PostForm = () => {
 
+                const initialValues = {
+                    title: "",
+                    postText: "",
+                    username: ""
+                }
 
+                const onSubmit = (data) => {
+                    console.log(data)
+                }
 
+                return (
+                    <div className="mt-3 container col-6 p-3 border border-primary rounded">
+                        <div className="createPostPage">
+                            <h4>Create Post</h4>
+                            <Formik initialValues={ initialValues } onSubmit={ onSubmit }>
+                                <Form>
+                                    <div className="mb-3">
+                                        <label htmlFor="inputTitle" className="form-label">Title</label>
+                                        <Field id="inputTitle" className="form-control" name="title" placeholder="(Expample.Title....)" />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="postTag" className="form-label">Post:</label>
+                                        <Field id="postTag" className="form-control" name="postText" placeholder="(Expample.Post....)" />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="username" className="form-label">User Name:</label>
+                                        <Field id="username" className="form-control" name="username" placeholder="(Expample.username....)" />
+                                    </div>
+                                    <button type="submit" className="btn btn-primary">Submit</button>
+                                </Form>
+                            </Formik>
+                        </div>
+                    </div>
+                )
+            }
+    2.15. give command in terminal : npm i -s yup
+            link documentation-> https://www.npmjs.com/package/yup
 
-
-
-
-
+    2.16. in pages/PostForm file:
+            import * as Yup from 'yup'
+            export const PostForm = () => {
+                const validationSchema = Yup.object().shape({
+                    title: Yup.string().required(),
+                    postText: Yup.string().required(),
+                    username: Yup.string().min(3).max(15).required()
+                })}
 
 
 
