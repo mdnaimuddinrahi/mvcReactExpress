@@ -1,6 +1,8 @@
 import React from 'react'
 import * as Yup from 'yup'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
+import PostServices from '../services/PostServices'
+
 export const PostForm = () => {
 
     const initialValues = {
@@ -15,8 +17,9 @@ export const PostForm = () => {
         username: Yup.string().min(3).max(15).required()
     })
 
-    const onSubmit = (data) => {
-        console.log(data)
+    const onSubmit = async (data) => {
+        const savePost = await PostServices.post(data)
+        console.log(`savePost`, savePost)
     }
 
     return (

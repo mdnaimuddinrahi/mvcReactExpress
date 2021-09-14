@@ -15,6 +15,18 @@ PostServices.list = async () => {
     return res;
 }
 
+PostServices.post = async (data) => {
+    let url = "http://127.0.0.1:3080/posts"
+    const res = await axios
+        .post(url, data)
+        .then(response => {
+            return response
+        })
+        .catch(error => {
+            return error
+        })
+}
+
 export default PostServices;
 
 // ItemServices.list = async params => {

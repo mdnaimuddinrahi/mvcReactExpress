@@ -1,15 +1,15 @@
 import React from 'react'
 import './App.css'
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Home } from './Pages/Home'
 import PostForm from './Pages/PostForm'
+import Navbar from './Pages/Navbar'
 export const App = () => {
 
   return (
     <div className="App">
       <Router>
-        <Link to="/post-form">Create A post</Link>
-        <Link to="/">Home page</Link>
+        <Navbar />
         <Switch>
           <Route path="/" exact component={ Home } />
           <Route path="/post-form" exact component={ PostForm } />

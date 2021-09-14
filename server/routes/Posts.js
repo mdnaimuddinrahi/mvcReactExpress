@@ -9,8 +9,9 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     const post = req.body
-    await Posts.create(post)
-    res.json(post)
+    const saveData = await Posts.create(post)
+    // res.json(post)
+    return saveData
 })
 
 

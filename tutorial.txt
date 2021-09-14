@@ -234,7 +234,7 @@ Now In Client folder we want you to show that. how React connect with node
 
 
                 export default App;
-    2.12. run command in terminal: npm install react-router-
+    2.12. run command in terminal: npm install react-router-dom
     2.13. in App.js file:
             import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
             import { Home } from './Pages/Home'
@@ -303,10 +303,26 @@ Now In Client folder we want you to show that. how React connect with node
                     postText: Yup.string().required(),
                     username: Yup.string().min(3).max(15).required()
                 })}
+    2.17. In pages/PostForm file :
+            const onSubmit = async (data) => {
+                const savePost = await PostServices.post(data)
+                console.log(`savePost`, savePost)
+            }
+    2.18. In PostServices file :
+    
+            PostServices.post = async (data) => {
+                let url = "http://127.0.0.1:3080/posts"
+                const res = await axios
+                    .post(url, data)
+                    .then(response => {
+                        return response
+                    })
+                    .catch(error => {
+                        return error
+                    })
+            }
 
-
-
-
+install sass ::> npm install --save-dev node-sass
 
 
 
