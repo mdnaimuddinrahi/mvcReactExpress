@@ -411,10 +411,51 @@ Back to Client:
     
 install sass ::> npm install --save-dev node-sass
 
+Next step create Users for registration and login and other process
+
+at first in server folder
+    1.35. create file in models/Users.js :
+
+            // const { DataTypes } = require("sequelize/types");
+            // const { sequelize } = require(".");
+
+            module.exports = (sequelize, DataTypes) => {
+                const Users = sequelize.define("Users", { // we are gonna define table as posts
+                    username: {
+                        type: DataTypes.STRING,
+                        allowNull: false,
+                    },
+                    password: {
+                        type: DataTypes.STRING,
+                        allowNull: false,
+                    }
+                })
+
+                Users.associate = (models) => {
+                    Users.hasMany(models.Posts, {
+                        onDelete: "cascade"
+                    })
+                }
+
+                return Users //we return all the object of Posts
+            }
+
+    1.36. In routes/Users.js file: 
+            const express = require('express')
+            const router = express.Router()
+            const { Users } = require('../models')
+
+            router.post('/', async (req, res) => { })
 
 
 
-
+            module.exports = router;
+    1.37. in index.js file:
+    
+            //Routers for users
+            const usersRouter = require('./routes/Users')
+            app.use("/auth", usersRouter)
+    1.38. run command in terminal : npm install bcrypt
 
 
 
