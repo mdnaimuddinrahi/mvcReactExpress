@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Home } from './Pages/Home'
 import PostForm from './Pages/PostForm'
 import Navbar from './Pages/Navbar'
+import Post from './Pages/Post'
 export const App = () => {
 
   return (
@@ -13,6 +14,7 @@ export const App = () => {
         <Switch>
           <Route path="/" exact component={ Home } />
           <Route path="/post-form" exact component={ PostForm } />
+          <Route path="/post/:id" exact component={ Post } />
         </Switch>
       </Router>
     </div>

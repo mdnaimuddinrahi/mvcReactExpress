@@ -322,7 +322,102 @@ Now In Client folder we want you to show that. how React connect with node
                     })
             }
 
+Back to server folder
+    1.25. Create comments.js file in models folder.
+    1.26. in models/comments file :=>
+                module.exports = (sequelize, DataTypes) => {
+                const Comments = sequelize.define("Comments", { // we are gonna define table as posts
+                    commentBody: {
+                        type: DataTypes.STRING,
+                        allowNull: false,
+                    }
+                })
+
+                return Comments //we return all the object of Posts
+            }
+    1.27. in models/Posts.js file : =>
+            Posts.associate = (models) => {
+                Posts.hasMany(models.Comments, {
+                    onDelete: "cascade"
+                })
+            }
+            (Note: this is for if user create post and there's have multiple comments.
+                    and if the user want delete the posts. comments also will be deleted.
+                    along with posts. suppose if post id =1 and in comment table in comment 
+                    id's 2,5,6 are comments.postId =1 then those comment will be deleted. if user
+                    want to delete.)
+
+    1.28. create file Comments.js in routes folder:
+    1.29. in routes/Comments.js::> 
+                const express = require('express')
+                const router = express.Router()
+                const { Comments } = require('../models')
+
+
+                router.get("/:postId", async (req, res) => {
+                    const postId = req.params.postId
+                    const comments = await Comments.findAll({ where: { PostId: postId } })
+                    res.json(comments)
+                })
+                module.exports = router;
+    1.30. in index.js file::>
+            
+            //Routers
+            const commentsRouter = require('./routes/Comments')
+            app.use("/comments", commentsRouter)
+
+    1.31. In routes/Posts.js file ::>
+                
+            router.get('/byId/:id', async (req, res) => {
+                const id = req.params.id
+                const post = await Posts.findByPk(id)
+                res.json(post)
+            })
+    1.32. Check in mysql if post specific working or not
+    1.33. In routes/Comments file ::>
+                
+            router.post('/', async (req, res) => {
+                const comment = req.body
+                await Comments.create(comment)
+                res.json(comment)
+            })
+    1.34. to save comments data to database : in json like ::>
+            {
+                "commentBody": "joker on me..",
+                "PostId": 4
+            }
+
+Back to Client:
+    2.19. Create Post.js in src/pages folder.
+            import React from 'react'
+            import { useParams } from 'react-router'
+            export const Post = () => {
+                let { id } = useParams()
+
+                return (
+                    <div>
+                        <h1>Hello  world:: { id }</h1>
+                    </div>
+                )
+            }
+
+            export default Post
+    2.20. in App.js file:
+            <Route path="/post/:id" exact component={ Post } />
+    2.21. in Home.js file:
+            import { useHistory } from 'react-router';
+            let history = useHistory()
+            <div className="card text-center col-2 col-md-3 m-2" key={ post.id } onClick={ () => { history.push(`/post/${post.id}`) } }>
+    
 install sass ::> npm install --save-dev node-sass
+
+
+
+
+
+
+
+
 
 
 
