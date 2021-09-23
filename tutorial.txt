@@ -484,9 +484,17 @@ at first in server folder
                     res.json("You Logged In!!!")
                 })
             })
-::>>> npm install --save react-toastify // notification toastify
+::>>> npm install --save react-toastify // notification toastify // in client folder
 link documentation: https://fkhadra.github.io/react-toastify/installation
+::>>> npm install jsonwebtoken in server folder
+link documentation: https://www.npmjs.com/package/jsonwebtoken
 
+to update npm version ::>
+run cmd : npm install -g npm
+
+In server folder:
+    1.40. In routes/Users.js file:
+            const { } = require("jsonwebtoken")
 
 
 

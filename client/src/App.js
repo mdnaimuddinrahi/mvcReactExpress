@@ -7,6 +7,8 @@ import Navbar from './Pages/Navbar'
 import Post from './Pages/Post'
 import Login from './Pages/Login'
 import Registration from './Pages/Registration'
+import { ToastContainer } from 'react-toastify';
+
 export const App = () => {
 
   return (
@@ -21,6 +23,7 @@ export const App = () => {
           <Route path="/register" exact component={ Registration }></Route>
         </Switch>
       </Router>
+      <ToastContainer />
     </div>
   )
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import * as Yup from 'yup'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import UserServices from '../services/UserServices'
+// import { ToastContainer, toast } from 'react-toastify';
 
 const Registration = () => {
 
@@ -18,7 +19,6 @@ const Registration = () => {
     const onSubmit = async (data) => {
         console.log('onSubmit', data)
         const user = await UserServices.store(data)
-
     }
 
     return (
@@ -39,6 +39,7 @@ const Registration = () => {
                                 <ErrorMessage name="password" component="span" className="text-danger" />
                             </div>
                             <button type="submit" className="btn btn-primary">Submit</button>
+
                         </Form>
                     </Formik>
                 </div>
