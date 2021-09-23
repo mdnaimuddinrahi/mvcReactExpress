@@ -457,6 +457,38 @@ at first in server folder
             app.use("/auth", usersRouter)
     1.38. run command in terminal : npm install bcrypt
 
+    1.39. To create users : 
+            in routes/Users.js file:
+                const bcrypt = require("bcrypt")
+            
+                router.post('/', async (req, res) => {
+                    const { username, password } = req.body
+                    bcrypt.hash(password, 10).then((hash) => { 
+                        Users.create({
+                            username: username,
+                            password: hash,
+                        })
+                        res.json("SUCCESS")
+
+                    })
+                })
+
+    1.39. in routes/Users.js file: 
+    
+            router.post("/login", async (req, res) => {
+                const { username, password } = req.body
+                const user = await Users.findOne({ where: { username: username } })
+                if (!user) res.json({ error: "User Doesn't Exist" })
+                bcrypt.compare(password, user.password).then((match) => {
+                    if (!match) res.json({ error: "Wrong Username And Password Combination" })
+                    res.json("You Logged In!!!")
+                })
+            })
+::>>> npm install --save react-toastify // notification toastify
+link documentation: https://fkhadra.github.io/react-toastify/installation
+
+
+
 
 
 

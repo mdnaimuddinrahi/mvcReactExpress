@@ -5,6 +5,8 @@ import { Home } from './Pages/Home'
 import PostForm from './Pages/PostForm'
 import Navbar from './Pages/Navbar'
 import Post from './Pages/Post'
+import Login from './Pages/Login'
+import Registration from './Pages/Registration'
 export const App = () => {
 
   return (
@@ -15,6 +17,8 @@ export const App = () => {
           <Route path="/" exact component={ Home } />
           <Route path="/post-form" exact component={ PostForm } />
           <Route path="/post/:id" exact component={ Post } />
+          <Route path="/login" exact component={ Login }></Route>
+          <Route path="/register" exact component={ Registration }></Route>
         </Switch>
       </Router>
     </div>
