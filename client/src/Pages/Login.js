@@ -1,15 +1,40 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import UserServices from '../services/UserServices'
+import { useHistory } from 'react-router-dom'
+import { AuthContext } from '../helpers/AuthContext';
+import { UserContext } from '../helpers/UserContext';
+import { toast } from 'react-toastify'
 
 const Login = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const { setAuthState } = useContext(AuthContext)
+    const { setAuthUser } = useContext(UserContext)
+    let history = useHistory()
+
+    useEffect(() => {
+        console.log(`localStorage.getItem("accessToken")`, localStorage.getItem("accessToken"))
+    }, [])
 
     const submitForm = async (event) => {
         event.preventDefault()
         const user = { username: username, password: password }
-        const data = await UserServices.login(user)
-        console.log(`data`, data)
+        await UserServices.login(user)
+        return getUser()
+    }
+
+    const getUser = async () => {
+        const user = await UserServices.auth()
+        if (user.error) {
+            toast.error(user.error, {
+                theme: "colored"
+            })
+            setAuthState(false)
+        } else {
+            setAuthUser(user)
+            setAuthState(true)
+            history.push("/")
+        }
     }
 
     return (

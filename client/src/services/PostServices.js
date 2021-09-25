@@ -31,8 +31,14 @@ PostServices.details = async (id) => {
 
 PostServices.post = async (data) => {
     let url = "http://127.0.0.1:3080/posts"
+    // console.log(`localStorage.getItem("accessToken")`, localStorage.getItem("accessToken"))
+    // return url
     const res = await axios
-        .post(url, data)
+        .post(url, data, {
+            headers: {
+                accessToken: localStorage.getItem("accessToken")
+            }
+        })
         .then(response => {
             return response
         })
@@ -41,44 +47,4 @@ PostServices.post = async (data) => {
         })
 }
 
-export default PostServices;
-
-// ItemServices.list = async params => {
-//     const urlList = "/api/items";
-//     const res = await axios
-//         .get(urlList, { params: params })
-//         .then(response => {
-//             return response.data.data.data;
-//         })
-//         .catch(error => {
-//             return error;
-//         });
-//     return res;
-// };
-// ItemServices.save = async data => {
-//     let urlSave = "/api/items";
-//     if (data.get("id")) {
-//         urlSave = "/api/items/" + data.get("id") + "?_method=PUT";
-//         const res = await axios
-//             .post(urlSave, data)
-//             .then(response => {
-//                 $.notify({ message: "Item Updated" }, { type: "success" });
-//                 return response.data;
-//             })
-//             .catch(error => {
-//                 return [];
-//             });
-//         return res;
-//     } else {
-//         const res = await axios
-//             .post(urlSave, data)
-//             .then(response => {
-//                 $.notify({ message: "Item Created" }, { type: "success" });
-//                 return response.data;
-//             })
-//             .catch(error => {
-//                 return [];
-//             });
-//         return res;
-//     }
-// };
+export default PostServices

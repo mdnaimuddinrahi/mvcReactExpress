@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.css'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Home } from './Pages/Home'
@@ -7,52 +7,60 @@ import Navbar from './Pages/Navbar'
 import Post from './Pages/Post'
 import Login from './Pages/Login'
 import Registration from './Pages/Registration'
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify'
+import { AuthContext } from './helpers/AuthContext'
+import { toast } from 'react-toastify'
+import UserServices from './services/UserServices'
+import { UserContext } from './helpers/UserContext'
 
-export const App = () => {
+function App() {
+  const [authState, setAuthState] = useState(false)
+  const [authUser, setAuthUser] = useState({})
+
+  useEffect(() => {
+    getAuthUser()
+  }, [])
+
+  const getAuthUser = async () => {
+    const user = await UserServices.auth()
+    if (user.error) {
+      toast.error(user.error, {
+        theme: "colored"
+      })
+      setAuthState(false)
+    } else {
+      setAuthUser(user)
+      setAuthState(true)
+    }
+  }
+
+  const logout = async () => {
+    // alert("in logout")
+    localStorage.removeItem('accessToken')
+    setAuthState(false)
+    setAuthUser({})
+  }
 
   return (
     <div className="App">
-      <Router>
-        <Navbar />
-        <Switch>
-          <Route path="/" exact component={ Home } />
-          <Route path="/post-form" exact component={ PostForm } />
-          <Route path="/post/:id" exact component={ Post } />
-          <Route path="/login" exact component={ Login }></Route>
-          <Route path="/register" exact component={ Registration }></Route>
-        </Switch>
-      </Router>
-      <ToastContainer />
+      <AuthContext.Provider value={ { authState, setAuthState } }>
+        <UserContext.Provider value={ { authUser, setAuthUser } }>
+          <Router>
+            <Navbar data={ authUser } logout={ logout } />
+            <Switch>
+              <Route path="/" exact component={ Home } />
+              <Route path="/post-form" exact component={ PostForm } />
+              <Route path="/post/:id" exact component={ Post } />
+              <Route path="/login" exact component={ Login }></Route>
+              <Route path="/register" exact component={ Registration }></Route>
+            </Switch>
+          </Router>
+          <ToastContainer />
+        </UserContext.Provider>
+      </AuthContext.Provider>
     </div>
   )
 }
 
 
 export default App;
-
-
-// import React, { Component } from 'react'
-
-// export class App extends Component {
-//   render() {
-//     return (
-//       <div>
-
-//       </div>
-//     )
-//   }
-// }
-
-// export default App
-
-
-// function App() {
-//   return (
-//     <div className="App">
-
-//     </div>
-//   );
-// }
-
-// export default App;

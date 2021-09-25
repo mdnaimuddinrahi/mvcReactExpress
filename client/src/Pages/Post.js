@@ -24,7 +24,6 @@ export const Post = () => {
 
     const getPostDetails = async () => {
         const data = await PostServices.details(id)
-        console.log(`data`, data)
         setPostState(data)
     }
 
@@ -37,7 +36,14 @@ export const Post = () => {
     let commentList = commentState.length ? commentState.map((comment, key) => {
         return <li className="list-group-item" key={ key }>
             <div className="row">
-                <div className="col">{ comment.commentBody } </div>
+                <div className="col">
+                    <div className="row">
+                        <div className="col text-start">{ comment.commentBody }</div>
+                    </div>
+                    <div className="row">
+                        <div className="col text-start"><small className="text-muted">Created By: { comment.username }</small></div>
+                    </div>
+                </div>
                 <div className="col text-end"><small className="text-muted"><Moment fromNow>{ comment.createdAt }</Moment></small></div>
             </div>
         </li>
@@ -70,7 +76,7 @@ export const Post = () => {
                     </div>
                 </div>
                 <div className="col">
-                    <div className="card" style={ { Width: "18rem" } }>
+                    <div className="card">
                         <div className="card-header">
                             <form action="" onSubmit={ commentSubmit }>
                                 <div className="mb-3">

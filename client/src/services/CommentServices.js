@@ -1,5 +1,6 @@
 
 import axios from 'axios'
+import { toast } from 'react-toastify'
 
 const CommentServices = {}
 
@@ -20,9 +21,24 @@ CommentServices.list = async (data) => {
 CommentServices.store = async (data) => {
     let url = "http://127.0.0.1:3080/comments/"
     const res = await axios
-        .post(url, data)
+        .post(url, data, {
+            headers: {
+                accessToken: localStorage.getItem("accessToken")
+            }
+        })
         .then(response => {
-            console.log('Successfully store')
+            if (response.data.error) {
+                console.log(`response data error`, response)
+                toast.error('You are not Logged In!', {
+                    theme: "colored"
+                })
+            } else {
+                console.log(`response success`, response)
+                toast.success("Your Comment saved !!!", {
+                    theme: "colored"
+                })
+            }
+
             return response.data
         })
         .catch(error => {

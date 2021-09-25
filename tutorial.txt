@@ -494,9 +494,114 @@ run cmd : npm install -g npm
 
 In server folder:
     1.40. In routes/Users.js file:
-            const { } = require("jsonwebtoken")
+            const { sign } = require("jsonwebtoken")
+            // add those line on route login
 
+            router.post("/login", async (req, res) => {
+                const { username, password } = req.body
+                const user = await Users.findOne({ where: { username: username } })
+                if (!user) res.json({ error: "User Doesn't Exist" })
+                bcrypt.compare(password, user.password).then((match) => {
+                    if (!match) res.json({ error: "Wrong Username And Password Combination" })
+                    const accessToken = sign({ username: user.username, id: user.id }, "importantsecret")
+                    res.json(accessToken)
+                })
+            })
+In client folder:
+        2.22. In userService file:
 
+                UserServices.login = async (data) => {
+                    let url = "http://127.0.0.1:3080/auth/login"
+                    console.log(`data`, data)
+                    const res = await axios
+                        .post(url, data)
+                        .then(response => {
+                            console.log(`response userservice: `, response)
+                            if (response.data.error) {
+                                toast.error(response.data.error, {
+                                    theme: "colored"
+                                })
+                            } else {
+                                toast.success("YOU LOGGED IN !!!", {
+                                    theme: "colored"
+                                })
+                                console.log(`response.data`, response.data)
+                                localStorage.setItem("accessToken", response.data)
+                            }
+                            return response.data
+                        })
+                        .catch(error => {
+                            console.log(`error userservices`, error)
+                            return error
+                        })
+                    return res
+                }
+
+// Back to server folder.
+create middlewares folder in server folder
+    1.42. in middlewares folder create AuthMiddleware.
+    1.43. In middlewares/AuthMiddleware.js file: 
+            const { verify } = require("jsonwebtoken")
+
+            const validateToken = (req, res, next) => {
+
+                const accessToken = req.header("accessToken")
+                if (!accessToken) return res.json({ error: "User not Logged in!" })
+                try {
+                    const validToken = verify(accessToken, "importantfulusecret")
+                    if (validToken) {
+                        return next()
+                    }
+                } catch (errorMsg) {
+                    return res.json({ error: errorMsg })
+                }
+            }
+
+            module.exports = { validateToken }
+    1.44. in routes/Comments.s file: 
+            const { validateToken } = require('../middlewares/AuthMiddleware')
+
+            router.post('/', validateToken, async (req, res) => {
+                const comment = req.body
+                await Comments.create(comment)
+                res.json(comment)
+            })
+In Client folder:
+    2.23. In CommentService.js file:
+            CommentServices.store = async (data) => {
+                let url = "http://127.0.0.1:3080/comments/"
+                const res = await axios
+                    .post(url, data, { 
+                        headers: { //for middleware auth add thise line
+                            accessToken: localStorage.getItem("accessToken") //for middleware auth add thise line
+                        } //for middleware auth add thise line
+                    })
+                    .then(response => {
+                        if (response.data.error) {
+                            console.log(`response data error`, response)
+                            toast.error('You are not Logged In!', {
+                                theme: "colored"
+                            })
+                        } else {
+                            console.log(`response success`, response)
+                            toast.success("Your Comment saved !!!", {
+                                theme: "colored"
+                            })
+                        }
+
+                        return response.data
+                    })
+                    .catch(error => {
+                        return error
+                    })
+                return res
+            }
+    2.24. Create helpers folder in src folder:
+    2.25. In helpers folder create AuthContext.js file:
+    2.26. In src/helpers/AuthContext.js file:
+            import { createContext } from "react";
+
+            export default AuthContext = createContext("")
 
 
 

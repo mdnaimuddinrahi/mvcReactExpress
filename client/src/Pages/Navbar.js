@@ -1,11 +1,33 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import $ from 'jquery'
-export const Navbar = () => {
+import { AuthContext } from '../helpers/AuthContext'
+import { UserContext } from '../helpers/UserContext'
+export const Navbar = (props) => {
+    // const [state, setstate] = useState(initialState)
+
+    const { authState } = useContext(AuthContext)
+    const user = useContext(UserContext)
 
     const activeClass = (e) => {
         $('.nav-link').removeClass("active")
         $("." + e).addClass("active")
+    }
+
+    console.log(`nav bar user::>`, user)
+
+    let showlogin = <div className="nav-item">Not found</div>
+    if (!authState) {
+        showlogin = <> <div className="navbar-nav" onClick={ () => activeClass('login') }>
+            <Link className="nav-link login" aria-current="page" to="/login">Login</Link>
+        </div>
+            <div className="navbar-nav" onClick={ () => activeClass('register') }>
+                <Link className="nav-link register" aria-current="page" to="/register">Registration</Link>
+            </div></>
+    } else {
+        showlogin = <>
+            <div className="navar-nav"><a href="" tabIndex="-1" aria-disabled="true" className="nav-link text-white">{ user.authUser.username }</a></div>
+            <div className="navbar-nav"><a className="nav-link" onClick={ () => props.logout() } tabIndex="-1" aria-disabled="true">Logout</a></div></>
     }
 
     return (
@@ -25,12 +47,8 @@ export const Navbar = () => {
                         </li>
                     </ul>
                     <div className="d-flex">
-                        <div className="navbar-nav" onClick={ () => activeClass('login') }>
-                            <Link className="nav-link login" aria-current="page" to="/login">Login</Link>
-                        </div>
-                        <div className="navbar-nav" onClick={ () => activeClass('register') }>
-                            <Link className="nav-link register" aria-current="page" to="/register">Registration</Link>
-                        </div>
+                        { showlogin }
+
                     </div>
                 </div>
             </div>

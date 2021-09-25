@@ -45,11 +45,13 @@ UserServices.login = async (data) => {
                     theme: "colored"
                 })
             } else {
+
                 toast.success("YOU LOGGED IN !!!", {
                     theme: "colored"
                 })
+
                 console.log(`response.data`, response.data)
-                sessionStorage.setItem("accessToken", response.data)
+                localStorage.setItem("accessToken", response.data)
             }
             return response.data
         })
@@ -73,10 +75,10 @@ UserServices.update = async (data) => {
     return res
 }
 
-UserServices.delete = async (data) => {
-    let url = "http://127.0.0.1:3080/auth" + data.id
+UserServices.auth = async (data) => {
+    let url = "http://127.0.0.1:3080/auth/auth"
     const res = await axios
-        .delete(url, data)
+        .get(url, { headers: { accessToken: localStorage.getItem("accessToken") } })
         .then(response => {
             return response.data
         })
