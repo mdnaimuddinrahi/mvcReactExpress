@@ -7,17 +7,15 @@ export const Navbar = (props) => {
     // const [state, setstate] = useState(initialState)
 
     const { authState } = useContext(AuthContext)
-    const user = useContext(UserContext)
+    // const user = useContext(UserContext)
 
     const activeClass = (e) => {
         $('.nav-link').removeClass("active")
         $("." + e).addClass("active")
     }
 
-    console.log(`nav bar user::>`, user)
-
     let showlogin = <div className="nav-item">Not found</div>
-    if (!authState) {
+    if (!authState.status) {
         showlogin = <> <div className="navbar-nav" onClick={ () => activeClass('login') }>
             <Link className="nav-link login" aria-current="page" to="/login">Login</Link>
         </div>
@@ -26,7 +24,7 @@ export const Navbar = (props) => {
             </div></>
     } else {
         showlogin = <>
-            <div className="navar-nav"><a href="" tabIndex="-1" aria-disabled="true" className="nav-link text-white">{ user.authUser.username }</a></div>
+            <div className="navar-nav"><a href="" tabIndex="-1" aria-disabled="true" className="nav-link text-white">{ authState.username }</a></div>
             <div className="navbar-nav"><a className="nav-link" onClick={ () => props.logout() } tabIndex="-1" aria-disabled="true">Logout</a></div></>
     }
 

@@ -1,14 +1,18 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import * as Yup from 'yup'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import PostServices from '../services/PostServices'
+import { AuthContext } from '../helpers/AuthContext'
+import { useHistory } from 'react-router'
 
 export const PostForm = () => {
+    const { authState } = useContext(AuthContext)
+    const history = useHistory()
 
     const initialValues = {
         title: "",
         postText: "",
-        username: ""
+        username: "",
     }
 
     const validationSchema = Yup.object().shape({
@@ -18,7 +22,11 @@ export const PostForm = () => {
     })
 
     const onSubmit = async (data) => {
-        const savePost = await PostServices.post(data)
+        const savePost = await PostServices.post({ ...data, UserId: authState.id })
+        console.log(`savePost after upload in Post:>`, savePost)
+        if (savePost.type == "success") {
+            history.push('/')
+        }
         console.log(`savePost`, savePost)
     }
 

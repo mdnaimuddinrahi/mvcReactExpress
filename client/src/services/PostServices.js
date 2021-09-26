@@ -1,4 +1,5 @@
 import axios from "axios"
+import { toast } from "react-toastify"
 
 const PostServices = {}
 
@@ -31,8 +32,6 @@ PostServices.details = async (id) => {
 
 PostServices.post = async (data) => {
     let url = "http://127.0.0.1:3080/posts"
-    // console.log(`localStorage.getItem("accessToken")`, localStorage.getItem("accessToken"))
-    // return url
     const res = await axios
         .post(url, data, {
             headers: {
@@ -40,11 +39,16 @@ PostServices.post = async (data) => {
             }
         })
         .then(response => {
-            return response
+            console.log(`response in PostServices::> `, response.data)
+            toast.success(response.data.message, {
+                theme: "colored"
+            })
+            return response.data
         })
         .catch(error => {
             return error
         })
+    return res
 }
 
 export default PostServices

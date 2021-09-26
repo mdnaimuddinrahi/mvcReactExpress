@@ -9,7 +9,6 @@ const Login = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const { setAuthState } = useContext(AuthContext)
-    const { setAuthUser } = useContext(UserContext)
     let history = useHistory()
 
     useEffect(() => {
@@ -19,22 +18,9 @@ const Login = () => {
     const submitForm = async (event) => {
         event.preventDefault()
         const user = { username: username, password: password }
-        await UserServices.login(user)
-        return getUser()
-    }
-
-    const getUser = async () => {
-        const user = await UserServices.auth()
-        if (user.error) {
-            toast.error(user.error, {
-                theme: "colored"
-            })
-            setAuthState(false)
-        } else {
-            setAuthUser(user)
-            setAuthState(true)
-            history.push("/")
-        }
+        const authUser = await UserServices.login(user)
+        setAuthState({ username: authUser.username, id: authUser.id, status: true })
+        history.push('/')
     }
 
     return (

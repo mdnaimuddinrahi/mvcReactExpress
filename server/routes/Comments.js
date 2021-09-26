@@ -17,4 +17,6 @@ router.post('/', validateToken, async (req, res) => {
     res.json(comment)
 })
 
+// router.delete()
+
 module.exports = router;

@@ -14,7 +14,11 @@ import UserServices from './services/UserServices'
 import { UserContext } from './helpers/UserContext'
 
 function App() {
-  const [authState, setAuthState] = useState(false)
+  const [authState, setAuthState] = useState({
+    username: "",
+    id: 0,
+    status: false,
+  })
   const [authUser, setAuthUser] = useState({})
 
   useEffect(() => {
@@ -27,10 +31,14 @@ function App() {
       toast.error(user.error, {
         theme: "colored"
       })
-      setAuthState(false)
+      setAuthState({ username: '', id: 0, status: false })
     } else {
       setAuthUser(user)
-      setAuthState(true)
+      setAuthState({
+        username: user.username,
+        id: user.id,
+        status: true,
+      })
     }
   }
 
@@ -38,7 +46,7 @@ function App() {
     // alert("in logout")
     localStorage.removeItem('accessToken')
     setAuthState(false)
-    setAuthUser({})
+    setAuthUser({ ...authState, status: false })
   }
 
   return (

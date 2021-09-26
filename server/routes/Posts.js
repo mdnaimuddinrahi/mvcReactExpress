@@ -1,4 +1,5 @@
 const express = require('express')
+const { validateToken } = require('../middlewares/AuthMiddleware')
 const router = express.Router()
 const { Posts } = require('../models')
 
@@ -16,10 +17,17 @@ router.get('/byId/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     const post = req.body
     const saveData = await Posts.create(post)
-    // res.json(post)
-    return saveData
+    res.json({ message: "Post Upload Successfully", type: "success", data: saveData })
+    // return saveData
 })
 
-
+router.delete("/:commentId", validateToken, async (req, res) => {
+    const commentId = req.params.commenId
+    Comments.destroy({
+        where: {
+            id: commentId
+        }
+    })
+})
 
 module.exports = router;

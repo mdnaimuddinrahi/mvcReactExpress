@@ -601,7 +601,77 @@ In Client folder:
     2.26. In src/helpers/AuthContext.js file:
             import { createContext } from "react";
 
-            export default AuthContext = createContext("")
+            export const AuthContext = createContext("")
+
+    2.27. In App.js file:
+            import React, { useContext, useState } from "react"
+            import AuthContext from  "../helpers/AuthContext"
+            function App() {
+                const {authState, setAuthState} = useState({
+                    id: 0,
+                    username: "",
+                    status: false
+                })
+            }
+
+            const logout = () => {
+                localStorage.removeItem('authToken')
+                setAuthState({
+                    id: 0,
+                    username: "",
+                    status: false
+                })
+            }
+
+            return (
+                <AuthContext.Provider value = {authState, setAuthState}> //set which pages or url context api work
+                <otherroute>....
+                </AuthContext.Provider>
+            )
+
+Go back to server folder:
+    1.45. in routes/User.js file:
+            
+            router.post("/login", async (req, res) => {
+                const { username, password } = req.body
+                const user = await Users.findOne({ where: { username: username } })
+                if (!user) res.json({ error: "User Doesn't Exist" })
+                bcrypt.compare(password, user.password).then((match) => {
+                    if (!match) res.json({ error: "Wrong Username And Password Combination" })
+                    const accessToken = sign({ username: user.username, id: user.id }, "importantfulusecret")
+                    res.json({ token: accessToken, username: username, id: user.id })
+                })
+            })
+
+    2.28. In pages/Login.js file: // how to set context api data
+            import React, {useContext} from 'react'
+            import {AuthContext} from '../helpers/AuthContext'
+            import UserServices from './service/UserServices'
+            const Login = () => {
+                const {setAuthState} = useContext(AuthContext)
+                const submitlogin = async(data) => {
+                    const userData = await UserServices.login(data)
+                }
+
+                if(login.type = 'success') {
+                    setAuthState({
+                        id: userData.id,
+                        username: userData.username,
+                        status: true
+                    })
+                }
+            }
+    
+    2.29. In pages/Navbar file: //how call context api data
+            import React, {useContext} from  'react'
+            import {AuthContext} from '../helpers/AuthContext'
+            
+            const Navbar = () => {
+                const {authState} = useContext(AuthContext)
+
+                return (<h1>{authState.username})
+            }
+    
 
 
 
