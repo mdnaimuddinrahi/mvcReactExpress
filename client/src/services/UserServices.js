@@ -50,8 +50,7 @@ UserServices.login = async (data) => {
                     theme: "colored"
                 })
 
-                console.log(`response.data`, response.data)
-                localStorage.setItem("accessToken", response.data)
+                localStorage.setItem("accessToken", response.data.token)
             }
             return response.data
         })

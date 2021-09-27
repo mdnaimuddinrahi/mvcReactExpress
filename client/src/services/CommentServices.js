@@ -28,14 +28,13 @@ CommentServices.store = async (data) => {
         })
         .then(response => {
             if (response.data.error) {
-                console.log(`response data error`, response)
                 toast.error('You are not Logged In!', {
                     theme: "colored"
                 })
             } else {
-                console.log(`response success`, response)
                 toast.success("Your Comment saved !!!", {
-                    theme: "colored"
+                    theme: "colored",
+                    pauseOnHover: false
                 })
             }
 
@@ -63,11 +62,20 @@ CommentServices.update = async (data) => {
 CommentServices.delete = async (data) => {
     let url = "http://127.0.0.1:3080/comments/" + data.id
     const res = await axios
-        .delete(url, data)
+        .delete(url, {
+            headers: {
+                accessToken: localStorage.getItem("accessToken")
+            }
+        })
         .then(response => {
+            toast.error(response.data.message, {
+                theme: "colored",
+                pauseOnHover: false
+            })
             return response.data
         })
         .catch(error => {
+            console.log(`error`, error)
             return error
         })
     return res

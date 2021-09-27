@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import PostServices from '../services/PostServices'
 import Moment from 'react-moment'
 import 'moment-timezone'
 import CommentServices from '../services/CommentServices'
+import { AuthContext } from '../helpers/AuthContext'
 
 export const Post = () => {
     let { id } = useParams()
     const [postState, setPostState] = useState({})
     const [commentState, setCommentState] = useState({})
     const [commentBody, setcommentBody] = useState('')
-
+    const { authState } = useContext(AuthContext)
     useEffect(() => {
 
         getPostDetails()
@@ -18,6 +19,7 @@ export const Post = () => {
     }, [])
 
     const getCommentList = async () => {
+        console.log(`after delete`)
         const data = await CommentServices.list(id)
         setCommentState(data)
     }
@@ -33,6 +35,17 @@ export const Post = () => {
         return getCommentList()
     }
 
+    const deleteComment = async (data) => {
+        // console.log(`data`, data)
+        if (authState.status == false) {
+            alert("Login first.")
+        } else {
+            const deleteUser = await CommentServices.delete(data)
+            console.log(`deleteUser`, deleteUser)
+            return getCommentList()
+        }
+    }
+
     let commentList = commentState.length ? commentState.map((comment, key) => {
         return <li className="list-group-item" key={ key }>
             <div className="row">
@@ -46,18 +59,11 @@ export const Post = () => {
                 </div>
                 <div className="col text-end">
                     <div className="row">
-                        <div className="col">
+                        <div className="col text-danger mt-2" onClick={ () => deleteComment(comment) }>
                             <i className="fa fa-trash" aria-hidden="true"></i>
                         </div>
-                        <div className="col">
-                            <div className="row">
-                                <div className="col">
-                                    <i className="fa fa-trash" aria-hidden="true"></i>
-                                </div>
-                                <div className="col">
-                                    <small className="text-muted"><Moment fromNow>{ comment.createdAt }</Moment></small>
-                                </div>
-                            </div>
+                        <div className="col mt-2">
+                            <small className="text-muted"><Moment fromNow>{ comment.createdAt }</Moment></small>
                         </div>
                     </div>
 

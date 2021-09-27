@@ -485,6 +485,7 @@ at first in server folder
                 })
             })
 ::>>> npm install --save react-toastify // notification toastify // in client folder
+toastify documentation::>>>https://fkhadra.github.io/react-toastify/introduction
 link documentation: https://fkhadra.github.io/react-toastify/installation
 ::>>> npm install jsonwebtoken in server folder
 link documentation: https://www.npmjs.com/package/jsonwebtoken
