@@ -50,7 +50,14 @@ export const Post = () => {
                             <i className="fa fa-trash" aria-hidden="true"></i>
                         </div>
                         <div className="col">
-                            <small className="text-muted"><Moment fromNow>{ comment.createdAt }</Moment></small>
+                            <div className="row">
+                                <div className="col">
+                                    <i className="fa fa-trash" aria-hidden="true"></i>
+                                </div>
+                                <div className="col">
+                                    <small className="text-muted"><Moment fromNow>{ comment.createdAt }</Moment></small>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

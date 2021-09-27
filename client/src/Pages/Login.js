@@ -2,8 +2,6 @@ import React, { useState, useEffect, useContext } from 'react'
 import UserServices from '../services/UserServices'
 import { useHistory } from 'react-router-dom'
 import { AuthContext } from '../helpers/AuthContext';
-import { UserContext } from '../helpers/UserContext';
-import { toast } from 'react-toastify'
 
 const Login = () => {
     const [username, setUsername] = useState("")
