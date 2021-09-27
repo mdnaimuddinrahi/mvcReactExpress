@@ -44,7 +44,17 @@ export const Post = () => {
                         <div className="col text-start"><small className="text-muted">Created By: { comment.username }</small></div>
                     </div>
                 </div>
-                <div className="col text-end"><small className="text-muted"><Moment fromNow>{ comment.createdAt }</Moment></small></div>
+                <div className="col text-end">
+                    <div className="row">
+                        <div className="col">
+                            <i className="fa fa-trash" aria-hidden="true"></i>
+                        </div>
+                        <div className="col">
+                            <small className="text-muted"><Moment fromNow>{ comment.createdAt }</Moment></small>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </li>
     }) : null

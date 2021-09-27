@@ -643,6 +643,7 @@ Go back to server folder:
                 })
             })
 
+Back to cliend folder:
     2.28. In pages/Login.js file: // how to set context api data
             import React, {useContext} from 'react'
             import {AuthContext} from '../helpers/AuthContext'
@@ -672,8 +673,17 @@ Go back to server folder:
                 return (<h1>{authState.username})
             }
     
-
-
+Back to server folder: 
+    1.46. In routes/Comments.js file:
+            router.delete("/:commentId", validateToken, async (req, res) => {
+                const commentId = req.params.commenId
+                Comments.destroy({
+                    where: {
+                        id: commentId
+                    }
+                })
+            })
+    1.47. 
 
 
 
