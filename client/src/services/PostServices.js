@@ -51,4 +51,26 @@ PostServices.post = async (data) => {
     return res
 }
 
+
+PostServices.like = async (data) => {
+    let url = "http://127.0.0.1:3080/likes"
+    const res = await axios
+        .post(url, { PostId: data.id }, {
+            headers: {
+                accessToken: localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => {
+            console.log(`response in PostServices likes::> `, response.data)
+            toast.success(response.data.message, {
+                theme: "colored"
+            })
+            return response.data
+        })
+        .catch(error => {
+            return error
+        })
+    return res
+}
+
 export default PostServices

@@ -6,11 +6,15 @@ import { AuthContext } from '../helpers/AuthContext';
 const Login = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const { setAuthState } = useContext(AuthContext)
+    const { authState, setAuthState } = useContext(AuthContext)
     let history = useHistory()
 
     useEffect(() => {
-        console.log(`localStorage.getItem("accessToken")`, localStorage.getItem("accessToken"))
+        const token = localStorage.getItem('accessToken')
+        // console.log(`token::> `, token.length)
+        if (token != null) {
+            history.push('/')
+        }
     }, [])
 
     const submitForm = async (event) => {

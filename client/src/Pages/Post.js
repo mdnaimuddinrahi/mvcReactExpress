@@ -12,8 +12,8 @@ export const Post = () => {
     const [commentState, setCommentState] = useState({})
     const [commentBody, setcommentBody] = useState('')
     const { authState } = useContext(AuthContext)
-    useEffect(() => {
 
+    useEffect(() => {
         getPostDetails()
         getCommentList()
     }, [])
@@ -66,7 +66,6 @@ export const Post = () => {
                             <small className="text-muted"><Moment fromNow>{ comment.createdAt }</Moment></small>
                         </div>
                     </div>
-
                 </div>
             </div>
         </li>

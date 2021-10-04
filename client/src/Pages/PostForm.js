@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import * as Yup from 'yup'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import PostServices from '../services/PostServices'
@@ -15,6 +15,13 @@ export const PostForm = () => {
         username: "",
     }
 
+    useEffect(() => {
+        if (!authState.status) {
+            localStorage.removeItem('accessToken')
+            history.push('/login')
+        }
+    }, [])
+
     const validationSchema = Yup.object().shape({
         title: Yup.string().required(),
         postText: Yup.string().required(),
@@ -23,11 +30,9 @@ export const PostForm = () => {
 
     const onSubmit = async (data) => {
         const savePost = await PostServices.post({ ...data, UserId: authState.id })
-        console.log(`savePost after upload in Post:>`, savePost)
         if (savePost.type == "success") {
             history.push('/')
         }
-        console.log(`savePost`, savePost)
     }
 
     return (

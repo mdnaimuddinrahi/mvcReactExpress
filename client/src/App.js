@@ -11,7 +11,7 @@ import { ToastContainer } from 'react-toastify'
 import { AuthContext } from './helpers/AuthContext'
 import { toast } from 'react-toastify'
 import UserServices from './services/UserServices'
-import { UserContext } from './helpers/UserContext'
+// import Loading from './Pages/Loading'
 
 
 function App() {
@@ -20,11 +20,10 @@ function App() {
     id: 0,
     status: false,
   })
-  const [authUser, setAuthUser] = useState({})
 
   useEffect(() => {
     getAuthUser()
-  }, [])
+  }, [authState.status])
 
   const getAuthUser = async () => {
     const user = await UserServices.auth()
@@ -34,7 +33,6 @@ function App() {
       })
       setAuthState({ username: '', id: 0, status: false })
     } else {
-      setAuthUser(user)
       setAuthState({
         username: user.username,
         id: user.id,
@@ -47,25 +45,23 @@ function App() {
     // alert("in logout")
     localStorage.removeItem('accessToken')
     setAuthState(false)
-    setAuthUser({ ...authState, status: false })
   }
 
   return (
     <div className="App">
+
       <AuthContext.Provider value={ { authState, setAuthState } }>
-        <UserContext.Provider value={ { authUser, setAuthUser } }>
-          <Router>
-            <Navbar data={ authUser } logout={ logout } />
-            <Switch>
-              <Route path="/" exact component={ Home } />
-              <Route path="/post-form" exact component={ PostForm } />
-              <Route path="/post/:id" exact component={ Post } />
-              <Route path="/login" exact component={ Login }></Route>
-              <Route path="/register" exact component={ Registration }></Route>
-            </Switch>
-          </Router>
-          <ToastContainer />
-        </UserContext.Provider>
+        <Router>
+          <Navbar logout={ logout } />
+          <Switch>
+            <Route path="/" exact component={ Home } />
+            <Route path="/post-form" exact component={ PostForm } />
+            <Route path="/post/:id" exact component={ Post } />
+            <Route path="/login" exact component={ Login }></Route>
+            <Route path="/register" exact component={ Registration }></Route>
+          </Switch>
+        </Router>
+        <ToastContainer />
       </AuthContext.Provider>
     </div>
   )

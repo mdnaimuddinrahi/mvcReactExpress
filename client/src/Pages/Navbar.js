@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import $ from 'jquery'
 import { AuthContext } from '../helpers/AuthContext'
-import { UserContext } from '../helpers/UserContext'
 export const Navbar = (props) => {
     // const [state, setstate] = useState(initialState)
 
@@ -36,14 +35,15 @@ export const Navbar = (props) => {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarScroll">
-                    <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" >
-                        <li className="nav-item" onClick={ () => activeClass('home') }>
-                            <Link className="nav-link home" aria-current="page" to="/">Home</Link>
-                        </li>
-                        <li className="nav-item" onClick={ () => activeClass('createpost') }>
-                            <Link className="nav-link createpost" aria-current="page" to="/post-form">Create-Post</Link>
-                        </li>
-                    </ul>
+                    { authState.status ?
+                        <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" >
+                            <li className="nav-item" onClick={ () => activeClass('home') }>
+                                <Link className="nav-link home" aria-current="page" to="/">Home</Link>
+                            </li>
+                            <li className="nav-item" onClick={ () => activeClass('createpost') }>
+                                <Link className="nav-link createpost" aria-current="page" to="/post-form">Create-Post</Link>
+                            </li>
+                        </ul> : <div className="collapse navbar-collapse"></div> }
                     <div className="d-flex">
                         { showlogin }
 
