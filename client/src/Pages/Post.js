@@ -32,8 +32,8 @@ export const Post = () => {
 
     const commentSubmit = async (event) => {
         event.preventDefault()
-        await CommentServices.store(commentBody)
-        return getCommentList()
+        const comment = await CommentServices.store(commentBody)
+        if (comment.type == 'success') return getCommentList()
     }
 
     const deleteComment = async (data) => {

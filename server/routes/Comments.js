@@ -13,8 +13,9 @@ router.post('/', validateToken, async (req, res) => {
     const comment = req.body
     const username = req.user.username
     comment.username = username
+    console.log(`comment::> `, comment)
     await Comments.create(comment)
-    res.json(comment)
+    res.json({ type: 'success', message: "Comment Upload Successfully" })
 })
 
 

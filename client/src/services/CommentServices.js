@@ -21,6 +21,7 @@ CommentServices.list = async (data) => {
 
 CommentServices.store = async (data) => {
     let url = HOSTING.URL + "comments/"
+    console.log(`comment data`, data)
     const res = await axios
         .post(url, data, HOSTING.TOKEN)
         .then(response => {
@@ -29,7 +30,8 @@ CommentServices.store = async (data) => {
                     theme: "colored"
                 })
             } else {
-                toast.success("Your Comment saved !!!", {
+                console.log(`response.data`, response.data)
+                toast.success(response.data.message, {
                     theme: "colored",
                     pauseOnHover: false
                 })
