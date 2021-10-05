@@ -78,7 +78,7 @@ UserServices.update = async (data) => {
 UserServices.auth = async (data) => {
     let url = HOSTING.URL + "auth/auth"
     const res = await axios
-        .get(url, { headers: { accessToken: localStorage.getItem("accessToken") } })
+        .get(url, HOSTING.TOKEN)
         .then(response => {
             return response.data
         })

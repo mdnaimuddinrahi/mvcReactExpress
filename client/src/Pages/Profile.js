@@ -49,7 +49,7 @@ const Profile = () => {
         return <div className="card mt-3" key={ post.id }>
             <div className="card-header bg-primary text-white">
                 <div className="row">
-                    <div className="col">
+                    <div className="col text-start">
                         Created At <Moment fromNow>{ post.createdAt }</Moment>
                     </div>
                     <div className="col">

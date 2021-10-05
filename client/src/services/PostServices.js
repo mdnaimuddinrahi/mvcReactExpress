@@ -1,6 +1,6 @@
 import axios from "axios"
 import { toast } from "react-toastify"
-import { HOSTING, ToastSuccess } from "./Hosting"
+import { HOSTING } from "./Hosting"
 
 const PostServices = {}
 

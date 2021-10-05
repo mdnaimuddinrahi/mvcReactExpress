@@ -22,11 +22,7 @@ CommentServices.list = async (data) => {
 CommentServices.store = async (data) => {
     let url = HOSTING.URL + "comments/"
     const res = await axios
-        .post(url, data, {
-            headers: {
-                accessToken: localStorage.getItem("accessToken")
-            }
-        })
+        .post(url, data, HOSTING.TOKEN)
         .then(response => {
             if (response.data.error) {
                 toast.error('You are not Logged In!', {
@@ -63,11 +59,7 @@ CommentServices.update = async (data) => {
 CommentServices.delete = async (data) => {
     let url = HOSTING.URL + "comments/" + data.id
     const res = await axios
-        .delete(url, {
-            headers: {
-                accessToken: localStorage.getItem("accessToken")
-            }
-        })
+        .delete(url, HOSTING.TOKEN)
         .then(response => {
             toast.error(response.data.message, {
                 theme: "colored",

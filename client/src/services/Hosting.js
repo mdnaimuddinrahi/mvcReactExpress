@@ -1,4 +1,3 @@
-import { toast } from "react-toastify"
 
 export const HOSTING = {
     URL: 'http://127.0.0.1:3080/',
@@ -9,11 +8,6 @@ export const HOSTING = {
     }
 }
 
-export const ToastSuccess = (data) => {
-    toast.success(data.message, {
-        theme: "colored"
-    })
-}
 
 
 
