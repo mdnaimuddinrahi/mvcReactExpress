@@ -100,6 +100,17 @@ UserServices.details = async (data) => {
     return res
 }
 
-
+UserServices.findById = async (id) => {
+    let url = "http://127.0.0.1:3080/auth/basicinfo/" + id
+    const res = await axios
+        .get(url)
+        .then(response => {
+            return response.data
+        })
+        .catch(error => {
+            return error
+        })
+    return res
+}
 
 export default UserServices

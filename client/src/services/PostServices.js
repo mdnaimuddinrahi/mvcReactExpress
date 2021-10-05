@@ -73,4 +73,40 @@ PostServices.like = async (data) => {
     return res
 }
 
+PostServices.delete = async (data) => {
+    let url = "http://127.0.0.1:3080/posts/" + data.id
+    const res = await axios
+        .delete(url, {
+            headers: {
+                accessToken: localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => {
+            toast.error(response.data.message, {
+                theme: "colored",
+                pauseOnHover: false
+            })
+            return response.data
+        })
+        .catch(error => {
+            console.log(`error`, error)
+            return error
+        })
+    return res
+}
+
+
+PostServices.byUserId = async (userId) => {
+    const url = 'http://127.0.0.1:3080/posts/byuserId/' + userId
+    const res = await axios
+        .get(url)
+        .then(response => {
+            console.log(`PostServices.byUserId`, response)
+            return response.data
+        })
+        .catch(error => {
+            return error
+        })
+    return res
+}
 export default PostServices

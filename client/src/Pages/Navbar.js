@@ -15,17 +15,28 @@ export const Navbar = (props) => {
 
     let showlogin = <div className="nav-item">Not found</div>
     if (!authState.status) {
-        showlogin = <> <div className="navbar-nav" onClick={ () => activeClass('login') }>
-            <Link className="nav-link login" aria-current="page" to="/login">Login</Link>
-        </div>
+        showlogin = <>
+            <div className="navbar-nav" onClick={ () => activeClass('login') }>
+                <Link className="nav-link login" aria-current="page" to="/login">Login</Link>
+            </div>
             <div className="navbar-nav" onClick={ () => activeClass('register') }>
                 <Link className="nav-link register" aria-current="page" to="/register">Registration</Link>
-            </div></>
+            </div>
+        </>
     } else {
         showlogin = <>
-            <div className="navar-nav"><a href="" tabIndex="-1" aria-disabled="true" className="nav-link text-white">{ authState.username }</a></div>
-            <div className="navbar-nav"><a className="nav-link" onClick={ () => props.logout() } tabIndex="-1" aria-disabled="true">Logout</a></div></>
+            <div className="navar-nav">
+                <Link to="/" tabIndex="-1" aria-disabled="true" className="nav-link text-white">{ authState.username }</Link>
+            </div>
+            <div className="navbar-nav">
+                <Link className="nav-link register" aria-current="page" to={ "/profile/" + authState.id }>Profile</Link>
+            </div>
+            <div className="navbar-nav">
+                <a className="nav-link" onClick={ () => props.logout() } tabIndex="-1" aria-disabled="true">Logout</a>
+            </div>
+        </>
     }
+
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -43,6 +54,7 @@ export const Navbar = (props) => {
                             <li className="nav-item" onClick={ () => activeClass('createpost') }>
                                 <Link className="nav-link createpost" aria-current="page" to="/post-form">Create-Post</Link>
                             </li>
+
                         </ul> : <div className="collapse navbar-collapse"></div> }
                     <div className="d-flex">
                         { showlogin }

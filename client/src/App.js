@@ -11,7 +11,7 @@ import { ToastContainer } from 'react-toastify'
 import { AuthContext } from './helpers/AuthContext'
 import { toast } from 'react-toastify'
 import UserServices from './services/UserServices'
-// import Loading from './Pages/Loading'
+import Profile from './Pages/Profile'
 
 
 function App() {
@@ -59,6 +59,7 @@ function App() {
             <Route path="/post/:id" exact component={ Post } />
             <Route path="/login" exact component={ Login }></Route>
             <Route path="/register" exact component={ Registration }></Route>
+            <Route path="/profile/:id" exact component={ Profile }></Route>
           </Switch>
         </Router>
         <ToastContainer />

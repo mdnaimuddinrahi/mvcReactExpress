@@ -12,7 +12,6 @@ export const PostForm = () => {
     const initialValues = {
         title: "",
         postText: "",
-        username: "",
     }
 
     useEffect(() => {
@@ -25,7 +24,6 @@ export const PostForm = () => {
     const validationSchema = Yup.object().shape({
         title: Yup.string().required(),
         postText: Yup.string().required(),
-        username: Yup.string().min(3).max(15).required()
     })
 
     const onSubmit = async (data) => {
@@ -50,11 +48,6 @@ export const PostForm = () => {
                             <label htmlFor="postTag" className="form-label">Post:</label>
                             <Field id="postTag" className="form-control" name="postText" placeholder="(Expample.Post....)" />
                             <ErrorMessage name="postText" component="span" className="text-danger" />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="username" className="form-label">User Name:</label>
-                            <Field id="username" className="form-control" name="username" placeholder="(Expample.username....)" />
-                            <ErrorMessage name="username" component="span" className="text-danger" />
                         </div>
                         <button type="submit" className="btn btn-primary">Submit</button>
                     </Form>

@@ -21,7 +21,7 @@ router.post('/', validateToken, async (req, res) => {
 router.delete("/:commentId", validateToken, async (req, res) => {
     // console.log(`req`, req.params)
     const commentId = req.params.commentId
-    Comments.destroy({
+    await Comments.destroy({
         where: {
             id: commentId
         }

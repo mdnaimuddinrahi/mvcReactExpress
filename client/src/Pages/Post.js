@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router'
+import { useHistory, useParams } from 'react-router'
 import PostServices from '../services/PostServices'
 import Moment from 'react-moment'
 import 'moment-timezone'
@@ -12,6 +12,7 @@ export const Post = () => {
     const [commentState, setCommentState] = useState({})
     const [commentBody, setcommentBody] = useState('')
     const { authState } = useContext(AuthContext)
+    const history = useHistory()
 
     useEffect(() => {
         getPostDetails()
@@ -46,6 +47,13 @@ export const Post = () => {
         }
     }
 
+    const deletePost = async (data) => {
+        const post = await PostServices.delete(data)
+        if (post.type == "success") {
+            history.push('/')
+        }
+    }
+
     let commentList = commentState.length ? commentState.map((comment, key) => {
         return <li className="list-group-item" key={ key }>
             <div className="row">
@@ -76,8 +84,11 @@ export const Post = () => {
             <div className="row m-2">
                 <div className="col">
                     <div className="card text-center">
-                        <div className="card-header">
-                            { postState.title }
+                        <div className="card-header bg-white">
+                            <div className="row">
+                                <div className="col text-start">{ postState.title }</div>
+                                <div className="col text-end"><p onClick={ () => deletePost(postState) }><i className="fa fa-trash" aria-hidden="true"></i></p></div>
+                            </div>
                         </div>
                         <div className="card-body">
                             <h5 className="card-title">{ postState.username }</h5>

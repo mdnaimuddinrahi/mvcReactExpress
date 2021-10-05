@@ -32,6 +32,13 @@ export const Home = () => {
         setListOfPosts(data)
     }
 
+    const deletePost = async (data) => {
+        const post = await PostServices.delete(data)
+        if (post.type == "success") {
+            return getPost()
+        }
+    }
+
     useEffect(() => {
         if (localStorage.getItem('accessToken') == null && !authState.status) {
             history.push('/login')
@@ -47,8 +54,11 @@ export const Home = () => {
 
             { listOfPosts && listOfPosts.map(post => (
                 <div className="card text-center col-2 col-md-3 m-2" key={ post.id } >
-                    <div className="card-header">
-                        { post.username }
+                    <div className="card-header bg-white">
+                        <div className="row">
+                            <div className="col text-start">{ post.username }</div>
+                            <div className="col text-end"><p onClick={ () => deletePost(post) }><i className="fa fa-trash" aria-hidden="true"></i></p></div>
+                        </div>
                     </div>
                     <div className="card-body">
                         <h5 className="card-title">{ post.title }</h5>

@@ -370,7 +370,7 @@ Back to server folder
                 
             router.get('/byId/:id', async (req, res) => {
                 const id = req.params.id
-                const post = await Posts.findByPk(id)
+                const post = await Posts.findByPk(id) //findByPk means find by primary key
                 res.json(post)
             })
     1.32. Check in mysql if post specific working or not
