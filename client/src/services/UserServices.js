@@ -1,11 +1,12 @@
 import axios from 'axios'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { HOSTING } from "./Hosting"
 
 const UserServices = {}
 
 UserServices.list = async (data) => {
-    let url = "http://127.0.0.1:3080/auth"
+    let url = HOSTING.URL + "auth"
     const res = await axios
         .get(url, data)
         .then(response => {
@@ -18,7 +19,7 @@ UserServices.list = async (data) => {
 }
 
 UserServices.store = async (data) => {
-    let url = "http://127.0.0.1:3080/auth"
+    let url = HOSTING.URL + "auth"
     const res = await axios
         .post(url, data)
         .then(response => {
@@ -34,7 +35,7 @@ UserServices.store = async (data) => {
 }
 
 UserServices.login = async (data) => {
-    let url = "http://127.0.0.1:3080/auth/login"
+    let url = HOSTING.URL + "auth/login"
     console.log(`data`, data)
     const res = await axios
         .post(url, data)
@@ -62,7 +63,7 @@ UserServices.login = async (data) => {
 }
 
 UserServices.update = async (data) => {
-    let url = "http://127.0.0.1:3080/auth" + data.id
+    let url = HOSTING.URL + "auth" + data.id
     const res = await axios
         .put(url, data)
         .then(response => {
@@ -75,7 +76,7 @@ UserServices.update = async (data) => {
 }
 
 UserServices.auth = async (data) => {
-    let url = "http://127.0.0.1:3080/auth/auth"
+    let url = HOSTING.URL + "auth/auth"
     const res = await axios
         .get(url, { headers: { accessToken: localStorage.getItem("accessToken") } })
         .then(response => {
@@ -88,7 +89,7 @@ UserServices.auth = async (data) => {
 }
 
 UserServices.details = async (data) => {
-    let url = "http://127.0.0.1:3080/auth" + data.id
+    let url = HOSTING.URL + "auth" + data.id
     const res = await axios
         .get(url, data)
         .then(response => {
@@ -101,7 +102,7 @@ UserServices.details = async (data) => {
 }
 
 UserServices.findById = async (id) => {
-    let url = "http://127.0.0.1:3080/auth/basicinfo/" + id
+    let url = HOSTING.URL + "auth/basicinfo/" + id
     const res = await axios
         .get(url)
         .then(response => {

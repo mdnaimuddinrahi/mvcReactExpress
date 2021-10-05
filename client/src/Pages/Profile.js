@@ -3,14 +3,12 @@ import { useParams } from 'react-router'
 import PostServices from '../services/PostServices'
 import UserServices from '../services/UserServices'
 import Moment from 'react-moment'
-import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom'
 
 const Profile = () => {
     let { id } = useParams()
     const [username, setUsername] = useState("")
     const [postsList, setPostsList] = useState({})
-    const history = useHistory()
 
     useEffect(() => {
         getUser()
@@ -36,12 +34,19 @@ const Profile = () => {
         }
     }
 
+    const updatePost = async (post, type) => {
+        let newData = prompt("Update your post " + type + ": ", post.data)
+        const response = await PostServices.update(type, { newData: newData, id: post.id })
+        if (response.type == "success") {
+            return getPosts()
+        }
+
+    }
+
     let listofPosts = null
 
-    console.log(`postsList`, postsList)
-
     listofPosts = postsList.length > 0 && postsList.map(post => {
-        return <div className="card mt-3">
+        return <div className="card mt-3" key={ post.id }>
             <div className="card-header bg-primary text-white">
                 <div className="row">
                     <div className="col">
@@ -55,8 +60,13 @@ const Profile = () => {
                 </div>
             </div>
             <div className="card-body">
-                <h5 className="card-title">{ post.title }</h5>
-                <p className="card-text">{ post.postText }</p>
+                <div className="d-flex justify-content-center">
+                    <h2 className="card-title">{ post.title }</h2>&nbsp;<p onClick={ () => { updatePost({ data: post.title, id: post.id }, "title") } }><i className="fas fa-pencil-alt"></i></p>
+
+                </div>
+                <div className="d-flex justify-content-center">
+                    <h5 className="card-text mt-1">{ post.postText }</h5>&nbsp;<p onClick={ () => { updatePost({ data: post.postText, id: post.id }, "postText") } }><i className="fas fa-pencil-alt"></i></p>
+                </div>
                 <Link to={ "/post/" + post.id } className="btn btn-primary">Go Details</Link>
             </div>
             <div className="card-footer">

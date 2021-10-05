@@ -40,4 +40,16 @@ router.get('/byuserId/:id', async (req, res) => {
     res.json(listOfPosts)
 })
 
+router.put("/title", validateToken, async (req, res) => {
+    const { newData, id } = req.body
+    const updatePost = await Posts.update({ title: newData }, { where: { id: id } })
+    res.json({ type: 'success', message: "title Update Successfully", data: updatePost })
+})
+
+router.put('/postText', validateToken, async (req, res) => {
+    const { newData, id } = req.body
+    const updatePost = await Posts.update({ postText: newData }, { where: { id: id } })
+    res.json({ type: 'success', message: "Post Text Update Successfully", data: updatePost })
+})
+
 module.exports = router;

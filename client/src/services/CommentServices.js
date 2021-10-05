@@ -1,12 +1,13 @@
 
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { HOSTING } from "./Hosting"
 
 const CommentServices = {}
 
 CommentServices.list = async (data) => {
     console.log(`data id :: `, data)
-    let url = "http://127.0.0.1:3080/comments/" + data
+    let url = HOSTING.URL + "comments/" + data
     const res = await axios
         .get(url)
         .then(response => {
@@ -19,7 +20,7 @@ CommentServices.list = async (data) => {
 }
 
 CommentServices.store = async (data) => {
-    let url = "http://127.0.0.1:3080/comments/"
+    let url = HOSTING.URL + "comments/"
     const res = await axios
         .post(url, data, {
             headers: {
@@ -47,7 +48,7 @@ CommentServices.store = async (data) => {
 }
 
 CommentServices.update = async (data) => {
-    let url = "http://127.0.0.1:3080/comments/" + data.id
+    let url = HOSTING.URL + "comments/" + data.id
     const res = await axios
         .put(url, data)
         .then(response => {
@@ -60,7 +61,7 @@ CommentServices.update = async (data) => {
 }
 
 CommentServices.delete = async (data) => {
-    let url = "http://127.0.0.1:3080/comments/" + data.id
+    let url = HOSTING.URL + "comments/" + data.id
     const res = await axios
         .delete(url, {
             headers: {
@@ -82,7 +83,7 @@ CommentServices.delete = async (data) => {
 }
 
 CommentServices.details = async (data) => {
-    let url = "http://127.0.0.1:3080/comments/" + data.id
+    let url = HOSTING.URL + "comments/" + data.id
     const res = await axios
         .get(url, data)
         .then(response => {
